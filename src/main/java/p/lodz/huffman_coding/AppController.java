@@ -80,7 +80,7 @@ public class AppController implements Initializable {
     @FXML
     void readMessageFromFile(ActionEvent event) {
         fileChooser.getExtensionFilters().setAll(
-                new FileChooser.ExtensionFilter("TXT files", "*.txt"));
+                new FileChooser.ExtensionFilter("ALL", "*.*"));
         File file = fileChooser.showOpenDialog(null);
         originalMessage = FileReader.readMessage(file.getAbsolutePath());
         originalMessageText.setText(originalMessage);
@@ -94,7 +94,6 @@ public class AppController implements Initializable {
             java.util.Map<Character, String> dictionary = (Map<Character, String>) receivingClient.getReceivedObject();
             HuffmanCoding huffmanDecoding = new HuffmanCoding(dictionary);
             String receivedText = Converter.removePaddingFromBitString(Converter.byteArrayToBitString(bytes));
-            System.out.println(receivedText);
             encodedMessageText.setText(receivedText);
             dictionaryText.setText(huffmanDecoding.getCodesString());
             receivedDecodedMessage = huffmanDecoding.decodeWithDictionary(receivedText);
