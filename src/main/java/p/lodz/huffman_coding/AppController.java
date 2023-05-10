@@ -75,7 +75,7 @@ public class AppController implements Initializable {
                 new FileChooser.ExtensionFilter("ALL", "*.*"));
         File file = fileChooser.showSaveDialog(null);
         if(huffmanCoding != null) {
-            FileReader.saveDictionaryToFile(huffmanCoding.getHuffmanDictionary(), file.getAbsolutePath());
+            FileReader.saveToFile(huffmanCoding.getCodesString(), file.getAbsolutePath());
         } else {
             FileReader.saveBytesFile(dictionaryText.getText().getBytes(),file.getAbsolutePath());
         }
