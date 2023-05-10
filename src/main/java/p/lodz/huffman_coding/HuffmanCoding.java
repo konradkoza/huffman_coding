@@ -12,16 +12,19 @@ public class HuffmanCoding {
     private Map<Character, Integer> charFrequencies;
     private final Map<Character, String> huffmanDictionary;
 
+    //konstruktor do kodowania tekstu
     public HuffmanCoding(String text) {
         this.text = text;
         checkCharFrequenciesInText();
         huffmanDictionary = new HashMap<>();
     }
 
+    //konstruktor do dekodowania na podstawie podanego słownika
     public  HuffmanCoding(Map<Character, String> dict){
         this.huffmanDictionary = dict;
     }
 
+    //sprawdzenie częstotliwości występowania poszczególnych znaków
     private void checkCharFrequenciesInText(){
         if(text != null){
             charFrequencies = new HashMap<>();
@@ -33,17 +36,23 @@ public class HuffmanCoding {
 
     }
 
+    //kodowanie wiadomości
     public String encode(){
         Queue<Node> queue = new PriorityQueue<>();
+        //dodaj liście ze znakami do kolejki
         charFrequencies.forEach((character, frequency) ->
                 queue.add(new Leaf(frequency, character)));
-
+        //tworzenie drzewa na podstawie częstotliwości występowania poszczególnych znaków
+        //funkcja pobiera kolejne dwa węzły bądż liście z kolejki, która układa elementy w kolejności
+        //od najmniejszej częstotliwości występowania znaku dla liści, bądź sumy częstotliwości potomoków węzła do największej częstotliwości
         while (queue.size() > 1) {
             queue.add(new Node(queue.poll(), queue.poll()));
         }
         root = queue.poll();
         if(root != null){
+            //generowanie słownika znaków na podstawie struktury drzewa
             generateHuffmanWord(root, "");
+            //podmiana znaków na zakodowane na podstawie stworzonego słownika
             return switchCharacters();
         } else {
             return "";
@@ -51,6 +60,7 @@ public class HuffmanCoding {
 
     }
 
+    //podmiana znaków w oryginalnej wiadomoości na znaki ze słownika
     private String switchCharacters() {
         if(text != null) {
             StringBuilder builder = new StringBuilder();
@@ -63,12 +73,15 @@ public class HuffmanCoding {
         }
     }
 
+    //rekurencyjna funkcja do uzupełniania słownika znaków
     private void generateHuffmanWord(Node node, String code){
         if (node instanceof Leaf){
             huffmanDictionary.put(((Leaf) node).getCharacter(), code);
             return;
         }
+        //dla węzłą lewego dodaj 0 do zakodowanego znaku
         generateHuffmanWord(node.getLeft(), code.concat("0"));
+        //dla węzłą prawego dodaj 1 do zakodowanego znaku
         generateHuffmanWord(node.getRight(), code.concat("1"));
     }
 
@@ -90,6 +103,7 @@ public class HuffmanCoding {
         return builder.toString();
     }
 
+    //funkcja dekodująca zakodowaną wiadomość na podstawie podanego słownika znaków
     public String decodeWithDictionary(String encoded){
         StringBuilder decoded = new StringBuilder();
         String word = "";

@@ -66,6 +66,22 @@ public class AppController implements Initializable {
     private Button saveEncodedMessageButton;
 
     @FXML
+    private Button saveDictionaryButton;
+
+
+    @FXML
+    void saveDictionary(ActionEvent event) {
+        fileChooser.getExtensionFilters().setAll(
+                new FileChooser.ExtensionFilter("ALL", "*.*"));
+        File file = fileChooser.showSaveDialog(null);
+        if(huffmanCoding != null) {
+            FileReader.saveDictionaryToFile(huffmanCoding.getHuffmanDictionary(), file.getAbsolutePath());
+        } else {
+            FileReader.saveBytesFile(dictionaryText.getText().getBytes(),file.getAbsolutePath());
+        }
+    }
+
+    @FXML
     void encodeMessage(ActionEvent event) {
         if(originalMessage != null) {
             huffmanCoding = new HuffmanCoding(originalMessage);

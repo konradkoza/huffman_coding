@@ -37,6 +37,7 @@
                <Font size="10.0" />
             </font>
          </Button>
+         <Button fx:id="saveDictionaryButton" layoutX="208.0" layoutY="197.0" mnemonicParsing="false" onAction="#saveDictionary" text="Zapisz słownik kodowy" />
       </children>
    </AnchorPane>
 </VBox>
